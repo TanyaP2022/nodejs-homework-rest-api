@@ -5,7 +5,12 @@ const ctrl = require("../../controllers/auth");
 
 const { ctrlWrapper } = require("../../helpers");
 
-const { validate, authenticate, isValidId } = require("../../middlewares");
+const {
+  validate,
+  authenticate,
+  isValidId,
+  upload,
+} = require("../../middlewares");
 
 const { schemas } = require("../../models/users");
 
@@ -25,8 +30,14 @@ router.patch(
   "/:id/subscription",
   isValidId,
   validate(schemas.updateSubscription),
-
   ctrlWrapper(ctrl.updateStatusSubscription)
+);
+
+router.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  ctrlWrapper(ctrl.updateAvatar)
 );
 
 module.exports = router;

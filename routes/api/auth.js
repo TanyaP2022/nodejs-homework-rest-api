@@ -20,6 +20,14 @@ router.post(
   ctrlWrapper(ctrl.register)
 );
 
+router.get("/verify/:verificationCode", ctrlWrapper(ctrl.verify));
+
+router.post(
+  "/verify",
+  validate(schemas.emailSchema),
+  ctrlWrapper(ctrl.resendVerifyEmail)
+);
+
 router.post("/login", validate(schemas.loginSchema), ctrlWrapper(ctrl.login));
 
 router.get("/current", authenticate, ctrlWrapper(ctrl.getCurrent));
